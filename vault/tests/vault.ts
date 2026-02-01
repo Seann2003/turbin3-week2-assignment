@@ -14,19 +14,19 @@ describe("anchor_vault_q4_25", () => {
   const [vaultStatePda, stateBump] =
     anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from("state"), user.toBuffer()],
-      program.programId
+      program.programId,
     );
 
   const [vaultPda, vaultBump] = anchor.web3.PublicKey.findProgramAddressSync(
     [Buffer.from("vault"), vaultStatePda.toBuffer()],
-    program.programId
+    program.programId,
   );
 
   before(async () => {
     // Airdrop for fees
     await provider.connection.requestAirdrop(
       user,
-      10 * anchor.web3.LAMPORTS_PER_SOL
+      10 * anchor.web3.LAMPORTS_PER_SOL,
     );
     // Wait for confirmation
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -75,7 +75,7 @@ describe("anchor_vault_q4_25", () => {
     expect(finalVaultBalance).to.equal(initialVaultBalance + depositAmount);
     // User balance decreases by amount - fees
     expect(finalUserBalance).to.equal(
-      initialUserBalance - depositAmount - 5000
+      initialUserBalance - depositAmount - 5000,
     );
   });
 
@@ -101,14 +101,14 @@ describe("anchor_vault_q4_25", () => {
     expect(finalVaultBalance).to.equal(initialVaultBalance - withdrawAmount);
     // User balance increases by amount - fees
     expect(finalUserBalance).to.equal(
-      initialUserBalance + withdrawAmount - 5000
+      initialUserBalance + withdrawAmount - 5000,
     );
   });
 
   it("Close the vault", async () => {
     const initialVaultBalance = await provider.connection.getBalance(vaultPda);
     const initialVaultStateBalance = await provider.connection.getBalance(
-      vaultStatePda
+      vaultStatePda,
     );
     const initialUserBalance = await provider.connection.getBalance(user);
 
@@ -129,13 +129,16 @@ describe("anchor_vault_q4_25", () => {
 
     // VaultState should be closed (null)
     const vaultStateInfo = await provider.connection.getAccountInfo(
-      vaultStatePda
+      vaultStatePda,
     );
     expect(vaultStateInfo).to.be.null;
 
     // User gets back the remaining balance - fees
     expect(finalUserBalance).to.equal(
-      initialUserBalance + initialVaultBalance + initialVaultStateBalance - 5000
+      initialUserBalance +
+        initialVaultBalance +
+        initialVaultStateBalance -
+        5000,
     );
   });
 });

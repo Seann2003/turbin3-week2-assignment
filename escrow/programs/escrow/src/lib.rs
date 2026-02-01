@@ -6,10 +6,10 @@ pub mod state;
 pub use instructions::*;
 pub use state::*;
 
-declare_id!("5UFZzEt5vU9fxtUAgsD11z63ApZEHJ5bH7Z4QpFwZ2CQ");
+declare_id!("Rk9BiPLWdPWmgsP1KMoqhx2FGDkFmXGENMChBfV2A5J");
 
 #[program]
-pub mod anchor_escrow_q4_25 {
+pub mod escrow {
     use super::*;
     pub fn make(ctx: Context<Make>, seed: u64, deposit: u64, receive: u64) -> Result<()> {
         ctx.accounts.deposit(deposit)?;
@@ -20,8 +20,8 @@ pub mod anchor_escrow_q4_25 {
         ctx.accounts.refund_and_close_vault()
     }
 
-    // pub fn take(ctx: Context<Take>) -> Result<()> {
-    //     ctx.accounts.deposit()?;
-    //     ctx.accounts.withdraw_and_close_vault()
-    // }
+    pub fn take(ctx: Context<Take>) -> Result<()> {
+        ctx.accounts.deposit()?;
+        ctx.accounts.withdraw_and_close_vault()
+    }
 }
