@@ -22,4 +22,6 @@ pub enum StakeError {
     NotOwner,
     #[msg("Insufficient Points")]
     NoPoints,
+    #[msg("Math Overflow")]
+    MathOverflow,
 }
