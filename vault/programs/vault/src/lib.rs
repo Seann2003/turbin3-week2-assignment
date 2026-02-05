@@ -179,9 +179,11 @@ impl<'info> Close<'info> {
             to: self.user.to_account_info(),
         };
 
+        let vault_state_key = self.vault_state.key();
+
         let seeds = &[
             b"vault",
-            self.user.key.as_ref(),
+            vault_state_key.as_ref(),
             &[self.vault_state.vault_bump],
         ];
         let signer_seeds = &[&seeds[..]];
